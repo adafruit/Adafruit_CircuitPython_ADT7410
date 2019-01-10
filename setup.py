@@ -35,7 +35,6 @@ setup(
     author='Adafruit Industries',
     author_email='circuitpython@adafruit.com',
 
-    # TODO: List all packages required for this library, likely found in requirements.txt
     install_requires=['Adafruit-Blinka', 'adafruit-circuitpython-busdevice',
                       'adafruit-circuitpython-register'],
 
@@ -55,12 +54,10 @@ setup(
     ],
 
     # What does your project relate to?
-    # TODO: Add search keywords here, separated by a space
     keywords='adafruit analog precision temperature sensor hardware adt7410 '
              'micropython circuitpython',
 
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
-    # TODO: CHANGE py_modules= TO packages= IF LIBRARY FILES ARE A PACKAGE FOLDER
     py_modules=['adafruit_adt7410'],
 )
