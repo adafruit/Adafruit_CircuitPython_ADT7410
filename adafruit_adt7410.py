@@ -110,7 +110,7 @@ class ADT7410:
         self._buf[0] = addr
         with self.i2c_device as i2c:
             i2c.write_then_readinto(self._buf, self._buf, out_end=1,
-                                    in_start=1, in_end=num+1, stop=False)
+                                    in_start=1, in_end=num+1)
         return self._buf[1:num+1]
 
     def _write_register(self, addr, data=None):
