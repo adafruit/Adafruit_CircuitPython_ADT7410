@@ -9,8 +9,8 @@ Introduction
     :target: https://discord.gg/nBQh6qu
     :alt: Discord
 
-.. image:: https://travis-ci.com/adafruit/Adafruit_CircuitPython_ADT7410.svg?branch=master
-    :target: https://travis-ci.com/adafruit/Adafruit_CircuitPython_ADT7410
+.. image:: https://github.com/adafruit/Adafruit_CircuitPython_ADT7410/workflows/Build%20CI/badge.svg
+    :target: https://github.com/adafruit/Adafruit_CircuitPython_ADT7410/actions/
     :alt: Build Status
 
 CircuitPython driver for reading temperature from the Analog Devices ADT7410 precision temperature sensor
