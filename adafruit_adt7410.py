@@ -80,7 +80,7 @@ class ADT7410:
         _id = (self._read_register(_ADT7410_ID)[0]) & 0xF8
         if _id != 0xC8:
             raise ValueError("Unable to find ADT7410 at i2c address " + str(hex(address)))
-        self._reset()
+        self.reset()
 
     @property
     def temperature(self):
@@ -102,7 +102,7 @@ class ADT7410:
     def configuration(self, val):
         return self._write_register(_ADT7410_CONFIG, val)
 
-    def _reset(self):
+    def reset(self):
         """Perform a software reset"""
         self._write_register(_ADT7410_SWRST)
         time.sleep(0.5)
