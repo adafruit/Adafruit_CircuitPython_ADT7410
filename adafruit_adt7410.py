@@ -61,6 +61,7 @@ _ADT7410_CONFIG = const(0x3)
 _ADT7410_ID = const(0xB)
 _ADT7410_SWRST = const(0x2F)
 
+
 class ADT7410:
     """Interface to the Analog Devices ADT7410 temperature sensor."""
 
@@ -71,7 +72,6 @@ class ADT7410:
     comparator_mode = RWBit(_ADT7410_CONFIG, 4)
     high_resolution = RWBit(_ADT7410_CONFIG, 7)
 
-
     def __init__(self, i2c_bus, address=0x48):
         self.i2c_device = I2CDevice(i2c_bus, address)
         self._buf = bytearray(3)
@@ -79,14 +79,16 @@ class ADT7410:
         # what we expect.
         _id = (self._read_register(_ADT7410_ID)[0]) & 0xF8
         if _id != 0xC8:
-            raise ValueError("Unable to find ADT7410 at i2c address " + str(hex(address)))
+            raise ValueError(
+                "Unable to find ADT7410 at i2c address " + str(hex(address))
+            )
         self.reset()
 
     @property
     def temperature(self):
         """The temperature in celsius"""
         temp = self._read_register(_ADT7410_TEMPMSB, 2)
-        return struct.unpack('>h', temp)[0] / 128
+        return struct.unpack(">h", temp)[0] / 128
 
     @property
     def status(self):
@@ -110,9 +112,10 @@ class ADT7410:
     def _read_register(self, addr, num=1):
         self._buf[0] = addr
         with self.i2c_device as i2c:
-            i2c.write_then_readinto(self._buf, self._buf, out_end=1,
-                                    in_start=1, in_end=num+1)
-        return self._buf[1:num+1]
+            i2c.write_then_readinto(
+                self._buf, self._buf, out_end=1, in_start=1, in_end=num + 1
+            )
+        return self._buf[1 : num + 1]
 
     def _write_register(self, addr, data=None):
         self._buf[0] = addr
