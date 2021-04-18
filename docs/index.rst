@@ -23,8 +23,12 @@ Table of Contents
 .. toctree::
     :caption: Tutorials
 
+    ADT7410 High Accuracy I2C Temperature Sensor Learning Guide <https://learn.adafruit.com/adt7410-breakout>
+
 .. toctree::
     :caption: Related Products
+
+    ADT7410 High Accuracy I2C Temperature Sensor Breakout Board <https://www.adafruit.com/product/4089>
 
 .. toctree::
     :caption: Other Links
