@@ -52,24 +52,23 @@ class ADT7410:
     """Interface to the Analog Devices ADT7410 temperature sensor.
 
     :param ~busio.I2C i2c_bus: The I2C bus the ADT7410 is connected to.
-    :param int address: The I2C device address for the sensor. Default is :const:`0x48`
+    :param int address: The I2C device address. Default is :const:`0x48`
 
     **Quickstart: Importing and using the ADT7410 temperature sensor**
 
-        Here is one way of importing the `ADT7410` class so you can use it with the name ``adt``.
+        Here is an example of using the :class:`ADT7410` class.
         First you will need to import the libraries to use the sensor
 
         .. code-block:: python
 
-            import busio
             import board
             import adafruit_adt7410
 
-        Once this is done you can define your `busio.I2C` object and define your sensor object
+        Once this is done you can define your `board.I2C` object and define your sensor object
 
         .. code-block:: python
 
-            i2c = busio.I2C(board.SCL, board.SDA)
+            i2c = board.I2C()  # uses board.SCL and board.SDA
             adt = adafruit_adt7410.ADT7410(i2c_bus, address=0x48)
 
         Now you have access to the temperature using :attr:`temperature`.
