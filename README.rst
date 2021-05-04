@@ -55,19 +55,19 @@ To install in a virtual environment in your current project:
 Usage Example
 =============
 
-.. code-block:: python
+.. code-block:: python3
 
-	import time
-	import board
-	import adafruit_adt7410
+    import time
+    import board
+    import adafruit_adt7410
 
-	i2c_bus = board.I2C()
-	adt = adafruit_adt7410.ADT7410(i2c_bus, address=0x48)
-	adt.high_resolution = True
+    i2c = board.I2C()  # uses board.SCL and board.SDA
+    adt = adafruit_adt7410.ADT7410(i2c_bus, address=0x48)
+    adt.high_resolution = True
 
-	while True:
-		print(adt.temperature)
-		time.sleep(0.5)
+    while True:
+        print(adt.temperature)
+        time.sleep(0.5)
 
 
 Contributing

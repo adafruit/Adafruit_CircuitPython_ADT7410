@@ -16,17 +16,21 @@ Implementation Notes
 
 **Hardware:**
 
-* `Adafruit's ADT7410 analog temperature Sensor Breakout:
+* `Adafruit ADT7410 analog temperature Sensor Breakout
   <https://www.adafruit.com/product/4089>`_ (Product ID: 4089)
+
 
 **Software and Dependencies:**
 
 * Adafruit CircuitPython firmware for the supported boards:
-  https://github.com/adafruit/circuitpython/releases
+  https://circuitpython.org/downloads
 
-* Adafruit's Bus Device library: https://github.com/adafruit/Adafruit_CircuitPython_BusDevice
+* Adafruit's Bus Device library:
+  https://github.com/adafruit/Adafruit_CircuitPython_BusDevice
 
-* Adafruit's Register library: https://github.com/adafruit/Adafruit_CircuitPython_Register
+* Adafruit's Register library:
+  https://github.com/adafruit/Adafruit_CircuitPython_Register
+
 """
 
 
