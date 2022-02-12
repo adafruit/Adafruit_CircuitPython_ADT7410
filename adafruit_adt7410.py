@@ -36,29 +36,33 @@ Implementation Notes
 
 import time
 import struct
-import busio
 from adafruit_bus_device.i2c_device import I2CDevice
 from adafruit_register.i2c_bit import RWBit, ROBit
 from micropython import const
 
+try:
+    # Used only for typing
+    import busio # pylint: disable=unused-import
+except ImportError:
+    pass
 
-__version__ = "0.0.0-auto.0"
-__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_ADT7410.git"
+__version__: str = "0.0.0-auto.0"
+__repo__: str = "https://github.com/adafruit/Adafruit_CircuitPython_ADT7410.git"
 
 
-_ADT7410_TEMPMSB = const(0x0)
-_ADT7410_TEMPLSB = const(0x1)
-_ADT7410_STATUS = const(0x2)
-_ADT7410_CONFIG = const(0x3)
-_ADT7410_THIGHMSB = const(0x4)
-_ADT7410_THIGHLSB = const(0x5)
-_ADT7410_TLOWMSB = const(0x6)
-_ADT7410_TLOWLSB = const(0x7)
-_ADT7410_TCRITMSB = const(0x8)
-_ADT7410_TCRITLSB = const(0x9)
-_ADT7410_THYST = const(0x0A)
-_ADT7410_ID = const(0xB)
-_ADT7410_SWRST = const(0x2F)
+_ADT7410_TEMPMSB: int = const(0x0)
+_ADT7410_TEMPLSB: int = const(0x1)
+_ADT7410_STATUS: int = const(0x2)
+_ADT7410_CONFIG: int = const(0x3)
+_ADT7410_THIGHMSB: int = const(0x4)
+_ADT7410_THIGHLSB: int = const(0x5)
+_ADT7410_TLOWMSB: int = const(0x6)
+_ADT7410_TLOWLSB: int = const(0x7)
+_ADT7410_TCRITMSB: int = const(0x8)
+_ADT7410_TCRITLSB: int = const(0x9)
+_ADT7410_THYST: int = const(0x0A)
+_ADT7410_ID: int = const(0xB)
+_ADT7410_SWRST: int = const(0x2F)
 
 
 class ADT7410:
