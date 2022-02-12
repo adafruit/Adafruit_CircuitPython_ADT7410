@@ -212,6 +212,8 @@ class ADT7410:
     @hysteresis.setter
     def hysteresis(self, value: int) -> None:
         if value > 15 or isinstance(value, float):
-            raise Exception("Hysteresis value must be an integer lower than 15 Celsius")
+            raise ValueError(
+                "Hysteresis value must be an integer lower than 15 Celsius"
+            )
 
         self._write_register(_ADT7410_THYST, value)
