@@ -42,7 +42,7 @@ from micropython import const
 
 try:
     # Used only for typing
-    import busio # pylint: disable=unused-import
+    import busio  # pylint: disable=unused-import
 except ImportError:
     pass
 
