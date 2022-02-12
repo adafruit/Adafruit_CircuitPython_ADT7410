@@ -36,9 +36,11 @@ Implementation Notes
 
 import time
 import struct
+import busio
 from adafruit_bus_device.i2c_device import I2CDevice
 from adafruit_register.i2c_bit import RWBit, ROBit
 from micropython import const
+
 
 __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_ADT7410.git"
@@ -91,17 +93,18 @@ class ADT7410:
     """
 
     # many modes can be set with register objects for simplicity
-    ready = ROBit(_ADT7410_STATUS, 7)
-    ctpin_polarity = RWBit(_ADT7410_CONFIG, 2)
-    intpin_polarity = RWBit(_ADT7410_CONFIG, 3)
-    comparator_mode = RWBit(_ADT7410_CONFIG, 4)
-    high_resolution = RWBit(_ADT7410_CONFIG, 7)
-    # Status Information configuration
-    temp_over_critiq = ROBit(_ADT7410_STATUS, 6)
-    temp_over_high = ROBit(_ADT7410_STATUS, 5)
-    temp_under_low = ROBit(_ADT7410_STATUS, 4)
+    ready: ROBit = ROBit(_ADT7410_STATUS, 7)
+    ctpin_polarity: RWBit = RWBit(_ADT7410_CONFIG, 2)
+    intpin_polarity: RWBit = RWBit(_ADT7410_CONFIG, 3)
+    comparator_mode: RWBit = RWBit(_ADT7410_CONFIG, 4)
+    high_resolution: RWBit = RWBit(_ADT7410_CONFIG, 7)
 
-    def __init__(self, i2c_bus, address=0x48):
+    # Status Information configuration
+    temp_over_critiq: ROBit = ROBit(_ADT7410_STATUS, 6)
+    temp_over_high: ROBit = ROBit(_ADT7410_STATUS, 5)
+    temp_under_low: ROBit = ROBit(_ADT7410_STATUS, 4)
+
+    def __init__(self, i2c_bus: busio.I2C, address: int = 0x48):
         self.i2c_device = I2CDevice(i2c_bus, address)
         self._buf = bytearray(3)
         # Verify the manufacturer and device ids to ensure we are talking to
@@ -114,31 +117,31 @@ class ADT7410:
         self.reset()
 
     @property
-    def temperature(self):
+    def temperature(self) -> float:
         """The temperature in Celsius"""
         temp = self._read_register(_ADT7410_TEMPMSB, 2)
         return struct.unpack(">h", temp)[0] / 128
 
     @property
-    def status(self):
+    def status(self) -> int:
         """The ADT7410 status registers current value"""
         return self._read_register(_ADT7410_STATUS)[0]
 
     @property
-    def configuration(self):
+    def configuration(self) -> int:
         """The ADT7410 configuration register"""
         return self._read_register(_ADT7410_CONFIG)[0]
 
     @configuration.setter
-    def configuration(self, val):
+    def configuration(self, val: int) -> None:
         self._write_register(_ADT7410_CONFIG, val)
 
-    def reset(self):
+    def reset(self) -> None:
         """Perform a software reset"""
         self._write_register(_ADT7410_SWRST)
         time.sleep(0.5)
 
-    def _read_register(self, addr, num=1):
+    def _read_register(self, addr: int, num: int = 1) -> int:
         self._buf[0] = addr
         with self.i2c_device as i2c:
             i2c.write_then_readinto(
@@ -146,7 +149,7 @@ class ADT7410:
             )
         return self._buf[1 : num + 1]
 
-    def _write_register(self, addr, data=None):
+    def _write_register(self, addr: int, data: int = None) -> None:
         self._buf[0] = addr
         end = 1
         if data:
@@ -156,39 +159,39 @@ class ADT7410:
             i2c.write(self._buf, end=end)
 
     @property
-    def high_temperature(self):
+    def high_temperature(self) -> int:
         """The over temperature limit value in Celsius"""
         temp = self._read_register(_ADT7410_THIGHMSB, 2)
         return struct.unpack(">h", temp)[0] / 128
 
     @high_temperature.setter
-    def high_temperature(self, value):
+    def high_temperature(self, value: int) -> None:
         value = struct.pack(">h", int(value * 128))
         self._write_register(_ADT7410_THIGHMSB, value[0])
         self._write_register(_ADT7410_THIGHLSB, value[1])
 
     @property
-    def low_temperature(self):
+    def low_temperature(self) -> int:
         """The over temperature limit value in Celsius. Only works when
         comparator mode is selected"""
         temp = self._read_register(_ADT7410_TLOWMSB, 2)
         return struct.unpack(">h", temp)[0] / 128
 
     @low_temperature.setter
-    def low_temperature(self, value):
+    def low_temperature(self, value: int) -> None:
         value = struct.pack(">h", int(value * 128))
         self._write_register(_ADT7410_TLOWMSB, value[0])
         self._write_register(_ADT7410_TLOWLSB, value[1])
 
     @property
-    def critical_temperature(self):
+    def critical_temperature(self) -> int:
         """The critical temperature limit value in Celsius. Only works when
         comparator mode is selected"""
         temp = self._read_register(_ADT7410_TCRITMSB, 2)
         return struct.unpack(">h", temp)[0] / 128
 
     @critical_temperature.setter
-    def critical_temperature(self, value):
+    def critical_temperature(self, value: int) -> None:
         """The over temperature limit value in Celsius
         There is a bug in the sensor, so the address 0x09 could no be written to 0x00
         for this reason only odd numbers could be given. We could make the 0x09 with
@@ -200,14 +203,14 @@ class ADT7410:
         self._write_register(_ADT7410_TCRITLSB, value[1])
 
     @property
-    def hysteresis(self):
+    def hysteresis(self) -> int:
         """The hysteresis temperature limit value in Celsius. Only works when
         comparator mode is selected. From 0 to 15 Celsius"""
         temp = self._read_register(_ADT7410_THYST)[0]
         return temp
 
     @hysteresis.setter
-    def hysteresis(self, value):
+    def hysteresis(self, value: int) -> None:
         if value > 15 or isinstance(value, float):
             raise Exception("Hysteresis value must be an integer lower than 15 Celsius")
 
