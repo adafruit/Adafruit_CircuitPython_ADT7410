@@ -46,8 +46,8 @@ try:
 except ImportError:
     pass
 
-__version__: str = "0.0.0-auto.0"
-__repo__: str = "https://github.com/adafruit/Adafruit_CircuitPython_ADT7410.git"
+__version__ = "0.0.0-auto.0"
+__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_ADT7410.git"
 
 
 _ADT7410_TEMPMSB: int = const(0x0)
