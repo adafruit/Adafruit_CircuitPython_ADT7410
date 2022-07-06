@@ -108,7 +108,7 @@ class ADT7410:
     temp_over_high: ROBit = ROBit(_ADT7410_STATUS, 5)
     temp_under_low: ROBit = ROBit(_ADT7410_STATUS, 4)
 
-    def __init__(self, i2c_bus: busio.I2C, address: int = 0x48):
+    def __init__(self, i2c_bus: busio.I2C, address: int = 0x48) -> None:
         self.i2c_device = I2CDevice(i2c_bus, address)
         self._buf = bytearray(3)
         # Verify the manufacturer and device ids to ensure we are talking to
