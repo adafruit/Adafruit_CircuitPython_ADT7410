@@ -34,7 +34,6 @@ Implementation Notes
 
 """
 
-
 import time
 from collections import namedtuple
 from micropython import const
@@ -47,9 +46,13 @@ try:
 except ImportError:
     pass
 
+try:
+    from typing import Union
+except ImportError:
+    pass
+
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_ADT7410.git"
-
 
 _REG_WHOAMI = const(0xB)
 _TEMP = const(0x00)
@@ -65,14 +68,22 @@ ONE_SHOT = const(0b01)
 SPS = const(0b10)
 SHUTDOWN = const(0b11)
 operation_mode_values = (CONTINUOUS, ONE_SHOT, SPS, SHUTDOWN)
+operation_mode_strings = (
+    "CONTINUOUS",
+    "ONE_SHOT",
+    "SPS",
+    "SHUTDOWN",
+)
 
 LOW_RESOLUTION = const(0b0)
 HIGH_RESOLUTION = const(0b1)
 resolution_mode_values = (LOW_RESOLUTION, HIGH_RESOLUTION)
+resolution_mode_strings = ("LOW_RESOLUTION", "HIGH_RESOLUTION")
 
 COMP_DISABLED = const(0b0)
 COMP_ENABLED = const(0b1)
 comparator_mode_values = (COMP_DISABLED, COMP_ENABLED)
+comparator_mode_strings = ("COMP_DISABLED", "COMP_ENABLED")
 
 AlertStatus = namedtuple("AlertStatus", ["high_alert", "low_alert", "critical_alert"])
 
@@ -180,18 +191,15 @@ class ADT7410:
         | :py:const:`adt7410.SHUTDOWN`   | :py:const:`0b11` |
         +--------------------------------+------------------+
         """
-        values = (
-            "CONTINUOUS",
-            "ONE_SHOT",
-            "SPS",
-            "SHUTDOWN",
-        )
-        return values[self._operation_mode]
+        return operation_mode_strings[self._operation_mode]
 
     @operation_mode.setter
-    def operation_mode(self, value: int) -> None:
+    def operation_mode(self, value: Union[int, str]) -> None:
         if value not in operation_mode_values:
-            raise ValueError("Value must be a valid operation_mode setting")
+            if value not in operation_mode_strings:
+                raise ValueError("Value must be a valid operation_mode setting")
+
+            value = operation_mode_strings.index(value)
         self._operation_mode = value
         time.sleep(0.24)
 
@@ -228,17 +236,26 @@ class ADT7410:
         | :py:const:`adt7410.HIGH_RESOLUTION` | :py:const:`0b1` |
         +-------------------------------------+-----------------+
         """
-        values = (
-            "LOW_RESOLUTION",
-            "HIGH_RESOLUTION",
-        )
-        return values[self._resolution_mode]
+
+        return resolution_mode_strings[self._resolution_mode]
 
     @resolution_mode.setter
-    def resolution_mode(self, value: int) -> None:
+    def resolution_mode(self, value: Union[int, str]) -> None:
         if value not in resolution_mode_values:
-            raise ValueError("Value must be a valid resolution_mode setting")
+            if value not in resolution_mode_strings:
+                raise ValueError("Value must be a valid resolution_mode setting")
+
+            value = resolution_mode_strings.index(value)
         self._resolution_mode = value
+
+    @property
+    def high_resolution(self) -> bool:
+        """Whether the device is currently configured for high resolution mode."""
+        return self.resolution_mode == HIGH_RESOLUTION
+
+    @high_resolution.setter
+    def high_resolution(self, value: bool) -> None:
+        self.resolution_mode = HIGH_RESOLUTION if value else LOW_RESOLUTION
 
     @property
     def alert_status(self):
@@ -296,16 +313,15 @@ class ADT7410:
         | :py:const:`adt7410.COMP_ENABLED`  | :py:const:`0b1` |
         +-----------------------------------+-----------------+
         """
-        values = (
-            "COMP_DISABLED",
-            "COMP_ENABLED",
-        )
-        return values[self._comparator_mode]
+        return comparator_mode_strings[self._comparator_mode]
 
     @comparator_mode.setter
-    def comparator_mode(self, value: int) -> None:
+    def comparator_mode(self, value: Union[int, str]) -> None:
         if value not in comparator_mode_values:
-            raise ValueError("Value must be a valid comparator_mode setting")
+            if value not in comparator_mode_strings:
+                raise ValueError("Value must be a valid comparator_mode setting")
+
+            value = comparator_mode_strings.index(value)
         self._comparator_mode = value
 
     @property
