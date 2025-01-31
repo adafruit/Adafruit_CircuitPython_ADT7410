@@ -33,3 +33,12 @@ Example showing the Operation mode setting
 .. literalinclude:: ../examples/adt7410_operation_mode.py
     :caption: examples/adt7410_operation_mode.py
     :lines: 5-
+
+DisplayIO Simpletest
+---------------------
+
+This is a simple test for boards with built-in display.
+
+.. literalinclude:: ../examples/adt7410_displayio_simpletest.py
+    :caption: examples/adt7410_displayio_simpletest.py
+    :lines: 5-
