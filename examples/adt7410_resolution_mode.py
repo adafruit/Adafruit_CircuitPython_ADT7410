@@ -3,8 +3,9 @@
 # SPDX-License-Identifier: MIT
 
 import time
-import board
+
 import adt7410
+import board
 
 i2c = board.I2C()
 adt = adt7410.ADT7410(i2c)
@@ -16,6 +17,6 @@ while True:
         print("Current Resolution mode setting: ", adt.resolution_mode)
         for _ in range(10):
             temp = adt.temperature
-            print("Temperature :{:.2f}C".format(temp))
+            print(f"Temperature :{temp:.2f}C")
             time.sleep(0.5)
         adt.resolution_mode = resolution_mode
